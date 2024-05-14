@@ -32,6 +32,7 @@ import com.mirth.connect.client.core.ClientException;
 import com.mirth.connect.client.core.ConnectServiceUtil;
 import com.mirth.connect.client.core.UnauthorizedException;
 import com.mirth.connect.client.core.api.servlets.UserServletInterface;
+import com.mirth.connect.client.ui.message.ILoginPanelMessageBundle;
 import com.mirth.connect.client.ui.util.DisplayUtil;
 import com.mirth.connect.model.ExtendedLoginStatus;
 import com.mirth.connect.model.LoginStatus;
@@ -127,7 +128,12 @@ public class LoginPanel extends javax.swing.JFrame {
             password.setText(pass);
 
             username.grabFocus();
-
+            ILoginPanelMessageBundle messageBundle = MessageBundleFactory.getLoginPanelBundle();
+            messageBundle.afterInit(this, jLabel2, jLabel1, jLabel3, jLabel6, mirthCorpImage, loginButton, closeButton);
+            String title  = messageBundle.getTitle(version);
+            if(StringUtils.isNotBlank(title)) {
+            	setTitle(title);
+            }
             setVisible(true);
         }
 

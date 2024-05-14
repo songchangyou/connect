@@ -14,6 +14,7 @@ import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.prefs.Preferences;
 
 import javax.imageio.ImageIO;
@@ -42,6 +43,7 @@ import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.mirth.connect.client.core.Client;
 import com.mirth.connect.client.core.ClientException;
+import com.mirth.connect.client.ui.util.MessageBundleUtils;
 
 /**
  * The main mirth class. Sets up the login and then authenticates the login information and sets up
@@ -320,6 +322,8 @@ public class Mirth {
         if (velocityLogger != null && velocityLogger.getLevel() == null) {
             Configurator.setLevel(velocityLogger.getName(), Level.OFF);
         }
+        
+        MessageBundleUtils.setDefaultLocale(Locale.SIMPLIFIED_CHINESE);
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
