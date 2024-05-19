@@ -1,10 +1,11 @@
 font: Tahoma
+applicationName: Mirth Connect
 # login panel
 loginPanel:
   label: 
-    title: Mirth Connect {0} - Login
-    headerText: Mirth Connect Login
-    headerFont: Tahoma
+    title: ${applicationName} {0} - Login
+    headerText: ${applicationName} Login
+    headerFont: ${font}
     serverText: "Server:"
     userNameText: "Username:"
     passwordText: "Password:"

@@ -6,6 +6,8 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.yaml.snakeyaml.Yaml;
@@ -86,6 +88,8 @@ public class MessageBundleUtils {
 		return getResourceBundle(baseName,locale);
 	}
 	
+	 private static final Pattern PROPERTY_PATTERN = Pattern.compile("\\$\\{([^}]+)}");
+	
 	private static HashMap<String,String> getResourceBundle(String baseName,Locale locale) {
 		if(!BUNDLES.containsKey(locale)) {
 			String yamlFilePath = getMessageFile(baseName,locale);
@@ -100,7 +104,10 @@ public class MessageBundleUtils {
 			Yaml yaml = new Yaml();
 	        InputStream inputStream = MessageBundleUtils.class.getResourceAsStream(yamlFilePath);
 	        HashMap<String,Object> resources = yaml.load(inputStream);
-	        BUNDLES.put(locale, flattenMap(resources,""));
+	        HashMap<String, String> srcMap = flattenMap(resources,"");
+	        //替换属性
+	        HashMap<String, String> replacedMap = replaceProperties(srcMap,srcMap);
+	        BUNDLES.put(locale, replacedMap);
 		}
 		if(BUNDLES.containsKey(locale)){
 			return BUNDLES.get(locale);
@@ -123,6 +130,38 @@ public class MessageBundleUtils {
             }
         }
         return flatMap;
+    }
+    
+    /**
+     * 实现类似 Spring Boot 中属性替换（例如使用 ${property.name} 的方式）
+     */
+    private static HashMap<String, String> replaceProperties(HashMap<String, String> map, HashMap<String, String> properties) {
+    	HashMap<String, String> result = new HashMap<>();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            if (entry.getValue() instanceof String) {
+                result.put(entry.getKey(), replaceProperty(entry.getValue(), properties));
+            } else {
+                result.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * 实现类似 Spring Boot 中属性替换（例如使用 ${property.name} 的方式）
+     */
+    private static String replaceProperty(String value, HashMap<String, String> properties) {
+        Matcher matcher = PROPERTY_PATTERN.matcher(value);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            String propertyName = matcher.group(1);
+            String propertyValue = properties.get(propertyName);
+            if (propertyValue != null) {
+                matcher.appendReplacement(sb, propertyValue);
+            }
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
     }
 	
 	/**

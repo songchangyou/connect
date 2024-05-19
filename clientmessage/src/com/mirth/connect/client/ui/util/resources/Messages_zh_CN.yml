@@ -1,11 +1,12 @@
 # 默认字体
 font: 宋体
+applicationName: Mirth Connect
 # 登录界面
 loginPanel:
   label: 
-    title: Mirth Connect {0} - 登录
-    headerText: Mirth Connect 登录
-    headerFont: 宋体
+    title: ${applicationName} {0} - 登录
+    headerText: ${applicationName} 登录
+    headerFont: ${font}
     serverText: "服务器地址:"
     userNameText: "用户名:"
     passwordText: "密码:"
