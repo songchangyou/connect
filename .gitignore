@@ -635,3 +635,4 @@ donkey/donkey-test
 
 # /webadmin/src/com/mirth/connect/webadmin/utils/
 
+/client/lib/ClientMessage.jar

@@ -93,16 +93,16 @@ public class MessageBundleUtils {
 	private static HashMap<String,String> getResourceBundle(String baseName,Locale locale) {
 		if(!BUNDLES.containsKey(locale)) {
 			String yamlFilePath = getMessageFile(baseName,locale);
-			URL url = MessageBundleUtils.class.getResource(yamlFilePath);
+			URL url = MessageBundleUtils.class.getClassLoader().getResource(yamlFilePath);
 			if(url == null) {
 				yamlFilePath = getDefaultMessageFile(baseName);
-				url = MessageBundleUtils.class.getResource(yamlFilePath);
+				url = MessageBundleUtils.class.getClassLoader().getResource(yamlFilePath);
 			}
 			if(url == null) {
 				return null;
 			}
 			Yaml yaml = new Yaml();
-	        InputStream inputStream = MessageBundleUtils.class.getResourceAsStream(yamlFilePath);
+	        InputStream inputStream = MessageBundleUtils.class.getClassLoader().getResourceAsStream(yamlFilePath);
 	        HashMap<String,Object> resources = yaml.load(inputStream);
 	        HashMap<String, String> srcMap = flattenMap(resources,"");
 	        //替换属性
@@ -168,14 +168,14 @@ public class MessageBundleUtils {
 	 * 配置文件名称
 	 */
 	private static String getMessageFile(String baseName,Locale locale) {
-		return String.format("resources/%s_%s_%s.yml",baseName,locale.getLanguage(),locale.getCountry());
+		return String.format("%s_%s_%s.yml",baseName,locale.getLanguage(),locale.getCountry());
 	}
 	
 	/**
 	 * 配置文件名称
 	 */
 	private static String getDefaultMessageFile(String baseName) {
-		return String.format("resources/%s.yml",baseName);
+		return String.format("%s.yml",baseName);
 	}
 	
 	private static Map<Locale,HashMap<String,String>> BUNDLES = new HashMap<>();

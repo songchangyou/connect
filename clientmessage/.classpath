@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/snakeyaml-2.2.jar" sourcepath="F:/MavenRepository/org/yaml/snakeyaml/2.2/snakeyaml-2.2-sources.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang3-3.13.0.jar"/>

@@ -51,8 +51,11 @@
 		<copy file="${server.setup}/server-lib/mirth-crypto.jar" todir="${client}/lib" />
 		<copy file="${server}/lib/mirth-vocab.jar" todir="${client}/lib" />
 
+		<ant antfile="${clientMessage}/build.xml" dir="${clientMessage}" target="build"/>
+		<copy file="${clientMessage}/dist/ClientMessage.jar" todir="${client}/lib" />
 		<ant antfile="${client}/ant-build.xml" dir="${client}" target="build" />
 
+		<copy file="${clientMessage}/dist/ClientMessage.jar" todir="${server.setup}/client-lib/" />
 		<copy file="${client}/dist/mirth-client.jar" todir="${server.setup}/client-lib/" />
 
 		<copy todir="${server.setup}/client-lib">
@@ -80,6 +83,7 @@
 		<copy todir="${server.setup}/manager-lib">
 			<fileset dir="${manager}/lib">
 				<exclude name="mirth-client.jar" />
+				<exclude name="ClientMessage.jar" />
 			</fileset>
 		</copy>
 	</target>
@@ -109,6 +113,7 @@
 		<copy todir="${server.setup}/cli-lib">
 			<fileset dir="${cli}/lib">
 				<exclude name="mirth-client.jar" />
+				<exclude name="ClientMessage.jar" />
 			</fileset>
 		</copy>
 
@@ -183,6 +188,7 @@
 	<target name="test-run" depends="init">
 		<ant antfile="${donkey}/build.xml" dir="${donkey}" target="test-run"/>
 		<ant antfile="${server}/build.xml" dir="${server}" target="test-run"/>
+		<ant antfile="${clientMessage}/build.xml" dir="${clientMessage}" target="test-run"/>
 		<ant antfile="${client}/ant-build.xml" dir="${client}" target="test-run"/>
 		<ant antfile="${cli}/build.xml" dir="${cli}" target="test-run"/>
 	</target>
@@ -190,6 +196,7 @@
 	<target name="remove-classes" depends="init">
 		<ant antfile="${donkey}/build.xml" dir="${donkey}" target="remove-classes"/>
 		<ant antfile="${server}/build.xml" dir="${server}" target="remove-classes"/>
+		<ant antfile="${clientMessage}/build.xml" dir="${clientMessage}" target="remove-classes"/>
 		<ant antfile="${client}/ant-build.xml" dir="${client}" target="remove-classes"/>
 	</target>
 
